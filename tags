@@ -1,0 +1,28 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/home/djp/.task/hooks/tw-ledger.timeclock.hook/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	/p5.9.20210815.0/
+LEDGERFILE	on-modify.timetrack.py	/^    LEDGERFILE = os.environ['TIMELOG']$/;"	v
+LEDGERFILE	on-modify.timetrack.py	/^LEDGERFILE = "%s\/.task\/hooks\/timetrack.ledger" % os.getenv('HOME')$/;"	v
+adjust_date	on-modify.timetrack.py	/^def adjust_date(d, adjust_by):$/;"	f
+annotation_added	on-modify.timetrack.py	/^annotation_added = ('annotations' in new and not 'annotations' in old) \\$/;"	v
+dt_to_tw	on-modify.timetrack.py	/^def dt_to_tw(d):$/;"	f
+entry	on-modify.timetrack.py	/^    entry = "i " + started.strftime("%Y\/%m\/%d %H:%M:%S")$/;"	v
+m	on-modify.timetrack.py	/^        m = re.match('^[0-9]+$', new['annotations'][-1]['description'])$/;"	v
+m	on-modify.timetrack.py	/^    m = re.match('^[0-9]+$', new['annotations'][-1]['description'])$/;"	v
+new	on-modify.timetrack.py	/^new = json.loads(sys.stdin.readline())$/;"	v
+old	on-modify.timetrack.py	/^old = json.loads(sys.stdin.readline())$/;"	v
+started	on-modify.timetrack.py	/^    started = datetime.fromtimestamp(started_ts)$/;"	v
+started_ts	on-modify.timetrack.py	/^    started_ts = calendar.timegm(started_utc.timetuple())$/;"	v
+started_utc	on-modify.timetrack.py	/^    started_utc = tw_to_dt(old['start'])$/;"	v
+stopped	on-modify.timetrack.py	/^            stopped = adjust_date(stopped, m.group(0))$/;"	v
+stopped	on-modify.timetrack.py	/^    stopped = datetime.now()$/;"	v
+task-timeclock-hook	README.md	/^# task-timeclock-hook$/;"	c
+tw_to_dt	on-modify.timetrack.py	/^def tw_to_dt(s):$/;"	f
