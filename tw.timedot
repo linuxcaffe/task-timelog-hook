@@ -1,0 +1,36 @@
+2021/11/10
+; this is a timedot file. It must start with a simple date, like above.
+; To log time intervals that can be parsed by hledger, lines follow;
+; <acct:subacct><2 or more spaces><qtty>[<2 or more spaces>;<comment>]
+; where <acct> could be any text <2+ spaces><qtty> could be dots
+; (representing quarter-hours) or numbers or ordinals or ..
+; for better description of the hledger timedot format go to
+; timedot link
+; To run reports on time logged, use the excellent http://hleger.org.
+; Once installed, to start out, run "hledger" without arguments,
+; to see what reports are available. Then (in the case if a default
+; task-timelog-hook install) run, for example;
+; hledger -f ~/.task/hooks/task-timelog-hooks/tw.ledger bal
+; see: https://github.com/linuxcaffe/task-timelog-hook/README.md
+#=================
+
+# Examples (these can be edited/ deleted, make them your own;
+
+2021/11/11
+; Thursday, Remembrance Day!
+job:hh        8.5  ; another day at the hardware store
+ent:youtube    .... .... .
+it:tw:timelog  .... .... ..  ; experiments
+ent:music
+; Can random notes? you bet!
+* [ ] random tasks? yes!
+*
+
+2021/11/12
+; Friday
+job:hh         8.5     ;cleaned out the clubhouse
+home:lunch     ..      ;stir fried noodles
+it:tw:timelog  .... .... ..  ;
+ent:youtube  ..
+ent:music
+ent:reading

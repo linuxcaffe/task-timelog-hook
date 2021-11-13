@@ -10,7 +10,7 @@
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	5.9.0	/p5.9.20210815.0/
 LEDGERFILE	on-modify-timelog.py	/^    LEDGERFILE = os.environ['TIMELOG']$/;"	v
-LEDGERFILE	on-modify-timelog.py	/^LEDGERFILE = "%s\/.task\/hooks\/task.timelog" % os.getenv('HOME')$/;"	v
+LEDGERFILE	on-modify-timelog.py	/^LEDGERFILE = "%s\/.task\/hooks\/task-timelog-hook\/tw.timelog" % os.getenv('HOME')$/;"	v
 adjust_date	on-modify-timelog.py	/^def adjust_date(d, adjust_by):$/;"	f
 annotation_added	on-modify-timelog.py	/^annotation_added = ('annotations' in new and not 'annotations' in old) \\$/;"	v
 dt_to_tw	on-modify-timelog.py	/^def dt_to_tw(d):$/;"	f
