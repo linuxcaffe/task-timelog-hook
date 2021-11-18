@@ -1,0 +1,32 @@
+; tw.timeclock file 2021/11/05
+
+i 2021/11/11 17:27:37 it:tw:timelog  develop timelog-hook
+o 2021/11/11 17:38:21  ; github:, uuid: fb77148d-c48b-454c-a978-bb846db6f7ec
+
+i 2021/11/11 17:31:51 it:tw:timelog  develop timelog-hook
+o 2021/11/11 17:37:52  ; github:, uuid: fb77148d-c48b-454c-a978-bb846db6f7ec
+
+i 2021/11/11 17:38:40 it:tw:timelog  develop timelog-hook
+o 2021/11/11 17:39:09  ; github:, uuid: fb77148d-c48b-454c-a978-bb846db6f7ec
+
+i 2021/11/11 18:08:08 it:tw:timelog  develop timelog-hook
+o 2021/11/11 18:09:02  ; github:, uuid: fb77148d-c48b-454c-a978-bb846db6f7ec
+
+i 2021/11/11 18:11:16 it:tw:timelog  develop timelog-hook
+o 2021/11/11 18:11:29  ; github:, uuid: fb77148d-c48b-454c-a978-bb846db6f7ec
+
+i 2021/11/13 17:48:48 it:tw:unite  test unite taskwarrior
+o 2021/11/13 20:08:16  ; uuid: d94ba22c-f4cf-4e2c-8c13-1917635d9f27
+
+i 2021/11/17 21:31:49 it:tw:timelog  develop timelog-hook
+o 2021/11/17 21:44:31  ; :g:i:t:h:u:b: uuid: fb77148d-c48b-454c-a978-bb846db6f7ec
+
+i 2021/11/17 21:31:49 it:tw:timelog  fix tag display
+o 2021/11/17 21:44:31  ; :b:u:g: uuid: c5ada215-9438-4ee5-b0b6-439d0205c571
+
+i 2021/11/17 22:01:09 it:tw:timelog  develop timelog-hook
+o 2021/11/17 22:06:27  ; :g:i:t:h:u:b: uuid: fb77148d-c48b-454c-a978-bb846db6f7ec
+
+i 2021/11/17 22:01:09 it:tw:timelog  fix tag display
+o 2021/11/17 22:06:28  ; :b:u:g: uuid: c5ada215-9438-4ee5-b0b6-439d0205c571
+

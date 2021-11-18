@@ -1,0 +1,7 @@
+# timeclock.rc
+# config file for https://github.com/linuxcaffe/task-timeclock-hook
+# to activate, include this file from your .taskrc
+#
+# alias.t=exec ~/.task/hooks/task-timeclock-hook/t.sh
+# alias.timeclock=exec ~/.task/hooks/task-timeclock/timeclock.sh
+# alias.timedot=exec ~/.task/hooks/task-timeclock/timedot.sh

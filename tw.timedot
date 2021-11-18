@@ -1,10 +1,15 @@
-2021/11/10
+2021/01/01
+# 2021
+# vim: set expandtab:
+
 ; this is a timedot file. It must start with a simple date, like above.
 ; To log time intervals that can be parsed by hledger, lines follow;
-; <acct:subacct><2 or more spaces><qtty>[<2 or more spaces>;<comment>]
+; 
+; <acct:subacct><2+ spaces><qtty>[<2+ spaces><; comment>]
+; 
 ; where <acct> could be any text <2+ spaces><qtty> could be dots
-; (representing quarter-hours) or numbers or ordinals or ..
-; for better description of the hledger timedot format go to
+; (representing quarter-hours) or numbers or ordinals.
+; For better description of the hledger timedot format go to
 ; timedot link
 ; To run reports on time logged, use the excellent http://hleger.org.
 ; Once installed, to start out, run "hledger" without arguments,
@@ -12,25 +17,67 @@
 ; task-timelog-hook install) run, for example;
 ; hledger -f ~/.task/hooks/task-timelog-hooks/tw.ledger bal
 ; see: https://github.com/linuxcaffe/task-timelog-hook/README.md
-#=================
+;=================
 
-# Examples (these can be edited/ deleted, make them your own;
+; Examples (these can be edited/ deleted, make them your own)
+##- November
 
+###- week 45
+
+####- Thursday, Remembrance Day!
 2021/11/11
-; Thursday, Remembrance Day!
-job:hh        8.5  ; another day at the hardware store
-ent:youtube    .... .... .
-it:tw:timelog  .... .... ..  ; experiments
+job:hh          8.5  ; another day at the hardware store
+ent:youtube     .... .... .
+it:tw:timelog   .... .... ..  ; experiments
 ent:music
 ; Can random notes? you bet!
 * [ ] random tasks? yes!
-*
 
+#### Friday
 2021/11/12
-; Friday
 job:hh         8.5     ;cleaned out the clubhouse
 home:lunch     ..      ;stir fried noodles
 it:tw:timelog  .... .... ..  ;
 ent:youtube  ..
 ent:music
 ent:reading
+
+#### Saturday
+2021/11/13
+job:hh          8.5
+home:lunch      ..   ;soup
+it:tw:timelog   .... ..
+ent:youtube     ...    
+
+#### Sunday
+2021/11/14
+job:hh    6.5
+it:tw:timedot       .... .
+home:lunch       ..   ;sandwich
+
+### week 46
+
+#### monday, truckday
+2021/11/15
+; was going to do mary's valve, maybe tomorrow
+sleep           6
+job:hh          8.5
+* put truck stuff awau
+
+#### Tuesday
+2021/11/16
+sleep           9
+it:tw:timedot   .... .... ..
+   ; sm agreed on expanded timedot spec
+job:mary:reno     ....          ;  change valve seals and check video camera
+* [ ] test timedot-vim :taskwiki: integration
+* [ ] another test
+
+#### Wed Nov 17 11:23:14 EST 2021
+2021/11/17
+sleep             9
+it:tw:timedot     .... .... ...
+ent:youtube       ....
+job:audrey:sink   2 
+job:don:hwhtr     1
+

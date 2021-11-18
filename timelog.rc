@@ -1,7 +1,0 @@
-# timelog.rc
-# config file for https://github.com/linuxcaffe/task-timelog-hook
-# to activate, include this file from your .taskrc
-#
-# alias.time=exec ~/.task/hooks/task-timelog-hook/time.sh
-# alias.timelog=exec ~/.task/hooks/task-timelog/timelog.sh
-# alias.timedot=exec ~/.task/hooks/task-timelog/timedot.sh

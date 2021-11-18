@@ -4,4 +4,4 @@
 #
 # set default $TIMELOG
 # if $TIMELOG sysvariable set, use that
-vim ~/.task/hooks/task-timelog-hook/tw.timelog
+vim ~/.task/hooks/task-timeclock-hook/tw.timeclock

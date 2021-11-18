@@ -36,7 +36,7 @@ from datetime import datetime
 from datetime import timedelta
 
 
-LEDGERFILE = "%s/.task/hooks/task-timelog-hook/tw.timelog" % os.getenv('HOME')
+LEDGERFILE = "%s/.task/hooks/task-timelog-hook/tw.timeclock" % os.getenv('HOME')
 
 if 'TIMELOG' in os.environ:
     LEDGERFILE = os.environ['TIMELOG']

@@ -1,7 +1,0 @@
-; journal created 2021-09-22 by hledger
-; for more info about ledger file formatting options
-;
-; commodity 1.25h  ;declare commodity as hours
-
-include ~/.task/hooks/task-timelog-hook/tw.timelog
-include ~/.task/hooks/task-timelog-hook/tw.timedot
