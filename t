@@ -1,5 +1,8 @@
 #!/bin/sh
 
+EDITOR=/usr/bin/vi
+TIMELOG_FILE=.task/hooks/task-timelog-hook/tw.timeclock
+
 # Show current timelog
 _t_timelog() {
   echo "$timelog"
@@ -87,11 +90,11 @@ else
 fi
 
 action=$1; shift
-[ "$TIMELOG" ] && timelog="$TIMELOG" || timelog="${HOME}/.timelog.ldg"
+[ "$TIMELOG" ] && timelog="$TIMELOG" || timelog="${HOME}/$TIMELOG_FILE"
 
 case "${action}" in
   in)   _t_in "$@";;
-  out)  _t_out "$@";;
+  out) _t_out "$@";;
   sw)   _t_sw "$@";;
   bal) _t_ledger bal "$@";;
   hours) _t_ledger bal -p "since today" "$@";;

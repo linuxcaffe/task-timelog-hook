@@ -73,7 +73,7 @@ job:mary:reno     ....          ;  change valve seals and check video camera
 * [ ] test timedot-vim :taskwiki: integration
 * [ ] another test
 
-#### Wed Nov 17 11:23:14 EST 2021
+#### - Wed Nov 17 -
 2021/11/17
 sleep             9
 it:tw:timedot     .... .... ...
@@ -81,3 +81,9 @@ ent:youtube       ....
 job:audrey:sink   2 
 job:don:hwhtr     1
 
+2021/11/18
+sleep             8
+job:hh            8.5
+it:tw:timelog     4
+  ; imptoved hook tag conversion 
+  ; still need to break up multiple tags

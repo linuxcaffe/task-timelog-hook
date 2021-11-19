@@ -10,9 +10,22 @@
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	5.9.0	/p5.9.20210815.0/
 AUTHORS.md 2012/11/17	AUTHORS.md	/^# AUTHORS.md 2012\/11\/17$/;"	c
+COMMENTS	README.md	/^## COMMENTS$/;"	s	chapter:task-timelog-hook
+CONFIGURE	README.md	/^## CONFIGURE$/;"	s	chapter:task-timelog-hook
+CONTRIBUTIONS	README.md	/^## CONTRIBUTIONS$/;"	s	chapter:task-timelog-hook
+CREDITS	README.md	/^## CREDITS$/;"	s	chapter:task-timelog-hook
 EOF	t	/^  cat << EOF$/;"	h
+INSTALL	README.md	/^## INSTALL $/;"	s	chapter:task-timelog-hook
+INTRODUCTION	README.md	/^## INTRODUCTION$/;"	s	chapter:task-timelog-hook
 LEDGERFILE	on-modify-timeclock.py	/^    LEDGERFILE = os.environ['TIMELOG']$/;"	v
 LEDGERFILE	on-modify-timeclock.py	/^LEDGERFILE = "%s\/.task\/hooks\/task-timelog-hook\/tw.timeclock" % os.getenv('HOME')$/;"	v
+RECOMMENDED	README.md	/^## RECOMMENDED$/;"	s	chapter:task-timelog-hook
+Requirements	README.md	/^### Requirements$/;"	S	section:task-timelog-hook""INSTALL
+Taskwarrior	README.md	/^#### Taskwarrior$/;"	t	subsection:task-timelog-hook""INSTALL""Requirements
+Timeckock	README.md	/^### Timeckock$/;"	S	section:task-timelog-hook""USAGE
+Timedot	README.md	/^### Timedot$/;"	S	section:task-timelog-hook""RECOMMENDED
+Timedot	README.md	/^### Timedot$/;"	S	section:task-timelog-hook""USAGE
+USAGE	README.md	/^## USAGE$/;"	s	chapter:task-timelog-hook
 __t_extract_project	t	/^__t_extract_project() {$/;"	f
 _t_cur	t	/^_t_cur() {$/;"	f
 _t_do	t	/^_t_do() {$/;"	f
@@ -27,6 +40,7 @@ adjust_date	on-modify-timeclock.py	/^def adjust_date(d, adjust_by):$/;"	f
 annotation_added	on-modify-timeclock.py	/^annotation_added = ('annotations' in new and not 'annotations' in old) \\$/;"	v
 dt_to_tw	on-modify-timeclock.py	/^def dt_to_tw(d):$/;"	f
 entry	on-modify-timeclock.py	/^    entry = "i " + started.strftime("%Y\/%m\/%d %H:%M:%S")$/;"	v
+ledger or hledger	README.md	/^#### ledger or hledger $/;"	t	subsection:task-timelog-hook""INSTALL""Requirements
 m	on-modify-timeclock.py	/^        m = re.match('^[0-9]+$', new['annotations'][-1]['description'])$/;"	v
 m	on-modify-timeclock.py	/^    m = re.match('^[0-9]+$', new['annotations'][-1]['description'])$/;"	v
 new	on-modify-timeclock.py	/^new = json.loads(sys.stdin.readline())$/;"	v

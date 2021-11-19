@@ -105,8 +105,8 @@ if 'start' in old and not 'start' in new:
     entry += new['project'].replace('.', ':') if 'project' in new else "no project"
     entry += "  " + new['description'] + "\n"
     entry += "o " + stopped.strftime("%Y/%m/%d %H:%M:%S")
-    entry += "  ;"
-    entry += " :" + ":".join(new['tags']) + ":" if 'tags' in new else ""
+    entry += "  ; "
+    entry += "" .join(new['tags']) + ":," if 'tags' in new else ""
     entry += " uuid: " + new['uuid']
     entry += "\n\n"
     with open(LEDGERFILE, "a") as ledger:
