@@ -1,23 +1,20 @@
 # task-timelog-hook
-A taskwarrior hook that logs task start/stop times to a timeclock file, that (h)ledger can read. 
+A [taskwarrior](https://taskwarrior.org) hook that logs task start/stop times to a [timeclock file](https://hledger.org/hledger.html#timeclock-format), that [ledger](https://ledger-cli.org) and [hledger](https://hledger.org) can read. 
 
-TLDR; If you enjoy the command-line and you want to track your time, including taskwarrior start/stop times, projects and tags, and you want to be able to easily read/ report/ query/ export your time-accounting data, then you should give this project a try. Warning: experimenting with ledger and/or hledger can lead to vastly improved personal accounting! 
+- _TLDR;_ If you enjoy the command-line and you want to track your time, including taskwarrior start/stop times, projects and tags, and you want to be able to easily read/ report/ query/ export your time-accounting data, then you should give this project a try. This approach is an alternative to [timewarrior](http://timewarrior.net). 
+- _Warning_: experimenting with ledger and/or hledger can lead to vastly improved personal financial and time accounting! 
 
 ## INTRODUCTION
 
-https://taskwarrior.org is a command-line task-management program that is amazingly customizable, but lacks the functionality to track time spent on those tasks. A companion app, timewarrior, was created to fill this gap, but in my experience, timewarrior commands are counter-intuitive, tricky to connect with taskwarrior data, and with limited reporting capability. Instead, this project proposes another way.
+- [Taskwarrior](https://taskwarrior.org) is a command-line task-management program that is amazingly customizable, with projects and tags and reports and User Defined Attributes.. it's "the 800lb gorilla" in the CLI ToDo list jungle. Tasks can be started and stopped, and those times recorded as annotations, but taskwarrior doesn't have the built-in functionality to track or report on the those intervals. That's where ledger and hledger shine! 
 
-https://hledger.org is a command-line accounting program capable of tracking all sorts of finances, currencies, commodities, _including time!_ hledger (and several other plaintextaccounting.org programs) can read/ query/ report from timelog.el formatted files. (see https://hledger.org/hledger.html#timeclock-format)
-
-task-timelog-hook connects taskwarrior start/stop times with hledger's time-accounting, opening up a great range of queries and reports based on taskwarrior descriptions, projects and tags. This information is essential for invoicing, etc. This hook is based entirely on https://gist.github.com/wbsch/d977b0ac29aa1dfa4437 by Wilhelm Schürmann in 2015, and it works just great! I'm expanding the gist to a github repo to provide documentation and tweaks where needed.
+- [ledger](https://ledger-cli.org) and [hledger](https://hledger.org) are both mature [command-line accounting programs](http://plaintextaccounting.org) with active development communities. They are work-alikes, and while [not identical](https://hledger.org/faq.html#how-is-hledger-different-from-ledger-) (ledger written in c++, hledger in haskell) they share most file-formats and many commands. One of the things they have in common is the ability to query and report from timeclock (a.k.a. timelog) formatted text files. The terms "timeclock" and "timelog" seem to be used interchangeably, and that's fine as long as the file extension is "*.timeclock". 
 
 ## INSTALL 
-
 ### Requirements
-
-#### Taskwarrior
-
-#### ledger or hledger 
+- Taskwarrior
+- Taskwarrior hook
+- ledger or hledger 
 
 ## CONFIGURE
 * files location
@@ -33,6 +30,9 @@ task-timelog-hook connects taskwarrior start/stop times with hledger's time-acco
 ### Timedot
 
 ## CREDITS
+
+This hook is based entirely on https://gist.github.com/wbsch/d977b0ac29aa1dfa4437 by Wilhelm Schürmann in 2015, and it works just great! I'm expanding the gist to a github repo to provide documentation and tweaks where needed.
+
 ## COMMENTS
 ## CONTRIBUTIONS
 
