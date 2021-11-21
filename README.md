@@ -1,5 +1,5 @@
 # task-timelog-hook
-A [taskwarrior](https://taskwarrior.org) hook that logs task start/stop times to a [timeclock file](https://hledger.org/hledger.html#timeclock-format), that [ledger](https://ledger-cli.org) and [hledger](https://hledger.org) can read. 
+> A [taskwarrior](https://taskwarrior.org) hook that logs task start/stop times to a [timeclock file](https://hledger.org/hledger.html#timeclock-format), that [ledger](https://ledger-cli.org) and [hledger](https://hledger.org) can read. 
 
 - _TLDR;_ If you enjoy the command-line and you want to track your time, including taskwarrior start/stop times, projects and tags, and you want to be able to easily read/ report/ query/ export your time-accounting data, then you should give this project a try. This approach is an alternative to [timewarrior](http://timewarrior.net). 
 - _Warning_: experimenting with ledger and/or hledger can lead to vastly improved personal financial and time accounting! 
@@ -26,10 +26,9 @@ A [taskwarrior](https://taskwarrior.org) hook that logs task start/stop times to
 - t and t. scripts
 
 ## USAGE
-
-### Timeclock
-
-### Timedot
+- Timeclock
+-t 
+- Timedot
 
 ## CREDITS
 
@@ -37,4 +36,5 @@ This hook is based entirely on https://gist.github.com/wbsch/d977b0ac29aa1dfa443
 
 ## COMMENTS
 ## CONTRIBUTIONS
+Bug reports, suggestions, pull requests welcome https://github.com/linuxcaffe/task-timelog-hook/issues
 
