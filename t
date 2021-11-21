@@ -1,7 +1,25 @@
 #!/bin/sh
+# t is a utility to work with (h)ledger *.timeclock files
+# see github.com/linuxcaffe/task-timelog-hook
 
-EDITOR=/usr/bin/vi
-TIMELOG_FILE=.task/hooks/task-timelog-hook/tw.timeclock
+timelog=.task/hooks/task-timelog-hook/tw.timeclock
+# if [ $TIMELOG ] then $timelog = $TIMELOG
+# fi
+
+EDITOR_BIN=vi
+# if [ $EDITOR ] then EDITOR_BIN = $EDITOR
+# fi
+
+# This script could be configurable to use ledger or hledger 
+# TODO: s/ledger/$LEDGER_BIN/g .. carefully!)
+# LEDGER_BIN = ledger
+#   if [ $LEDGER ] then LEDGER_BIN = $LEDGER
+#   fi
+
+# timedot file can only be read by hledger, so only include it if hledger is set
+# TIMEDOT_FILE = path/to/my.timedot
+#   if $LEDGER_BIN = "hledger" then $TIMELOG_FILE = "$TIMELOG_FILE $TIMEDOT_FILE"
+#   fi
 
 # Show current timelog
 _t_timelog() {
@@ -56,18 +74,19 @@ actions:
      in - clock into project or last project
      out - clock out of project
      sw,switch - switch projects
-     bal - show balance
-     hours,td - show balance for today
-     yd,yesterday - show balance for yesterday
-     yd^ - show balance for 2 days ago
-     tw,thisweek - show balance for this week
-     lw,lastweek - show balance for last week
+     bal - balance [args]
+     reg - register [args]
+     hours,td - balance for today
+     yd,yesterday - balance for yesterday
+     yd^ - balance for 2 days ago
+     tw,thisweek - balance for this week
+     lw,lastweek - balance for last week
      edit - edit timelog file
      cur - show currently open project
      last - show last closed project
      last^ to last^^^^^ - show nth last closed project
      grep - grep timelog for argument
-     cat - show timelog
+     cat - cat timelog
      head - show start of timelog
      tail - show end of timelog
      less - show timelog in pager
@@ -90,13 +109,16 @@ else
 fi
 
 action=$1; shift
-[ "$TIMELOG" ] && timelog="$TIMELOG" || timelog="${HOME}/$TIMELOG_FILE"
+[ "$TIMELOG" ] && timelog="$TIMELOG" || timelog="${HOME}/$timelog"
 
 case "${action}" in
+# TODO: echo currently clocked in project 
   in)   _t_in "$@";;
+# TODO: echo clocked out project
   out) _t_out "$@";;
   sw)   _t_sw "$@";;
   bal) _t_ledger bal "$@";;
+  reg) _t_ledger reg "$@";;
   hours) _t_ledger bal -p "since today" "$@";;
   td) _t_ledger bal -p "since today" "$@";;
   yesterday) _t_ledger bal -p "yesterday" "$@";;
@@ -107,7 +129,7 @@ case "${action}" in
   lastweek) _t_ledger $_args "last week" "$@";;
   lw) _t_ledger $_args "last week" "$@";;
   switch)   _t_sw "$@";;
-  edit) _t_do $EDITOR "$@";;
+  edit) _t_do $EDITOR_BIN "$@";;
   cur)  _t_cur "$@";;
   last^^^^^) _t_last 6 "$@";;
   last^^^^) _t_last 5 "$@";;

@@ -15,17 +15,19 @@ A [taskwarrior](https://taskwarrior.org) hook that logs task start/stop times to
 - Taskwarrior
 - Taskwarrior hook
 - ledger or hledger 
-
+- 
 ## CONFIGURE
 * files location
 * editor
 
 ## RECOMMENDED
-### Timedot
+- timedot (for hledger users)
+- timedot-vim
+- t and t. scripts
 
 ## USAGE
 
-### Timeckock
+### Timeclock
 
 ### Timedot
 
