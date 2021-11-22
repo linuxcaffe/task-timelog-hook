@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+
+function to() {
+	status=$(tail -n 1 "$TIMELOG"|head -c 1)
+	out="o $(TZ=America/Chicago date "+%Y-%m-%d %H:%M:%S")"
+	account=$(tail -n 1 "$TIMELOG"|cut -f4- -d' '|grep .)
+	if [ -n "$1" ]; then
+		out+=" "
+		out+="$1"
+	fi
+	if [ "$status" == "i" ]; then
+		echo "$out" >> "$TIMELOG"
+		echo "clocked out" >&2
+		if [ "$account" != "" ]; then
+			echo "account:" "$account" >&2
+		else
+			echo "account: none" >&2
+		fi
+		echo "$out"
+	else
+		echo "not clocked in" >&2
+	fi
+}
+
+function ti() {
+	in="i $(TZ=America/Chicago date "+%Y-%m-%d %H:%M:%S")"
+	status=$(tail -n1 "$TIMELOG"|head -c1)
+	if [ -n "$1" ]; then
+		in+=" "
+		in+="$1"
+	fi
+	if [ "$status" == "o" ] || [ "$status" == "" ]; then
+		echo "$in" >> "$TIMELOG"
+		echo "$in"
+	elif [ "$status" == "i" ]; then
+		echo "already clocked in" >&2
+		echo "clocking out and then in" >&2
+		to
+		ti "$1"
+	fi
+}
+
+function tito() {
+	status=$(tail -n1 "$TIMELOG"|head -c1)
+	if [ "$status" == "i" ]; then
+		to "$1"
+	elif [ "$status" == "o" ]; then
+		ti "$1"
+	fi
+}
+
+function status() {
+	entry=$(tail -n1 "$TIMELOG")
+	status=$(echo "$entry"|head -c1)
+	if [ "$status" == "i" ]; then
+		echo "clocked in" >&2
+	elif [ "$status" == "o" ]; then
+		echo "clocked out" >&2
+	fi
+	echo "$entry"
+}
+
+#prog="$(basename "$(test -L "$0" && readlink "$0" || echo "$0")")"
+prog=$(basename -- "$(readlink -f -- "$0")")
+
+if [ "$prog" == "to" ]; then
+	to "$1"
+elif [ "$prog" == "ti" ]; then
+	ti "$1"
+elif [ "$prog" == "tito" ]; then
+	if [ "$1" == "to" ]; then
+		to "$2"
+	elif [ "$1" == "ti" ]; then
+		ti "$2"
+	elif [ "$1" == "status" ]; then
+		status
+	elif [ "$1" == "print" ]; then
+		cat "$TIMELOG"
+	elif [ "$1" == "accounts" ]; then
+		cut -f4- -d' ' "$TIMELOG"|grep .|sed "s:  .*::"|sort|uniq
+	elif [ "$1" != "ti" ] && [ "$1" != "to" ]; then
+		tito "$1"
+	fi
+fi

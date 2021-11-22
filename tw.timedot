@@ -89,11 +89,19 @@ it:tw:timelog     4
   ; imptoved hook tag conversion 
   ; still need to break up multiple tags
 
+### Friday
 2021/11/19
 sleep             6.5
 job:hh            8.5
 it:tw:timelog      6
 
+### Saturday
 2021/11/20
-ent:youtube       ....
-it:tw:timelog     ....
+sleep             6
+ent:youtube       .... ...
+it:tw:timelog     .... .... ....
+
+### Sunday
+2021/11/21
+sleep             9
+

@@ -6,7 +6,7 @@ timelog=.task/hooks/task-timelog-hook/tw.timeclock
 # if [ $TIMELOG ] then $timelog = $TIMELOG
 # fi
 
-EDITOR_BIN=vi
+EDITOR_BIN='vi +'
 # if [ $EDITOR ] then EDITOR_BIN = $EDITOR
 # fi
 

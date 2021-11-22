@@ -10,6 +10,7 @@
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	5.9.0	/p5.9.20210815.0/
 AUTHORS.md 2012/11/17	AUTHORS.md	/^# AUTHORS.md 2012\/11\/17$/;"	c
+CHANGES.md	CHANGES.md	/^# CHANGES.md$/;"	c
 COMMENTS	README.md	/^## COMMENTS$/;"	s	chapter:task-timelog-hook
 CONFIGURE	README.md	/^## CONFIGURE$/;"	s	chapter:task-timelog-hook
 CONTRIBUTIONS	README.md	/^## CONTRIBUTIONS$/;"	s	chapter:task-timelog-hook
