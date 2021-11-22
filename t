@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # t is a utility to work with (h)ledger *.timeclock files
 # see github.com/linuxcaffe/task-timelog-hook
 
@@ -17,6 +17,7 @@ EDITOR_BIN='vi +'
 #   fi
 
 # timedot file can only be read by hledger, so only include it if hledger is set
+# timedot=' -f /home/djp/.task/hooks/task-timelog-hook/test.ledger'
 # TIMEDOT_FILE = path/to/my.timedot
 #   if $LEDGER_BIN = "hledger" then $TIMELOG_FILE = "$TIMELOG_FILE $TIMEDOT_FILE"
 #   fi
@@ -40,22 +41,63 @@ _t_do() {
 # Clock in to the given project
 # Clock in to the last project if no project is given
 _t_in() {
-  [ ! "$1" ] && set -- "$@" "$(_t_last)"
-  echo i `date '+%Y-%m-%d %H:%M:%S'` "$*" >> "$timelog"
+	in="i $(TZ=America/Chicago date "+%Y-%m-%d %H:%M:%S")"
+	status=$(grep '^i \|^o ' "$timelog" |tail -n1 |head -c1)
+	if [ -n "$1" ]; then
+		in+=" "
+		in+="$1"
+	fi
+	if [ -n "$2" ]; then
+    desc="${@:2}"
+    in+="  $desc"
+  fi
+	if [ "$status" == "o" ] || [ "$status" == "" ]; then
+		echo "$in" >> "$timelog"
+    echo "clocked in to $1 - $desc - at $(date "+%H:%M")" >&2
+#		echo "$in"
+	elif [ "$status" == "i" ]; then
+		echo "already clocked in" >&2
+		echo "clock out and then in" >&2
+#		_t_out
+#		_t_in "$1"
+	fi
 }
 
 # Clock out
 _t_out() {
-  echo o `date '+%Y-%m-%d %H:%M:%S'` "$*" >> "$timelog"
+	status=$(grep '^i \|^o ' "$timelog" |tail -n 1 |head -c 1)
+	out="o $(TZ=America/Chicago date "+%Y-%m-%d %H:%M:%S")"
+	account=$(grep '^i \|^o ' "$timelog" |tail -n 1 |cut -f4- -d' '|grep .)
+	if [ -n "$1" ]; then
+		out+=" "
+		out+="$1"
+	fi
+	if [ "$status" == "i" ]; then
+		echo "$out" >> "$timelog"
+  export PS2=">"
+		if [ "$account" != "" ]; then
+			echo "account:" "$account" >&2
+		else
+			echo "account: none" >&2
+		fi
+    echo "clocked out at $(date "+%H:%M")" >&2
+	else
+		echo "not clocked in" >&2
+	fi
 }
 
-# switch projects
-_t_sw() {
-  echo o `date '+%Y-%m-%d %H:%M:%S'` >> "$timelog"
-  echo i `date '+%Y-%m-%d %H:%M:%S'` "$*" >> "$timelog"
+function status() {
+	entry=$(tail -n1 "$timelog")
+	status=$(echo "$entry"|head -c1)
+	if [ "$status" == "i" ]; then
+		echo "clocked in" >&2
+	elif [ "$status" == "o" ]; then
+		echo "clocked out" >&2
+	fi
+	echo "$entry"
 }
 
-# Show the currently clocked-in project
+# Show the currently clocke:bnd-in project
 _t_cur() {
   sed -e '/^i/!d;$!d' "${timelog}" | __t_extract_project
 }
@@ -112,10 +154,10 @@ action=$1; shift
 [ "$TIMELOG" ] && timelog="$TIMELOG" || timelog="${HOME}/$timelog"
 
 case "${action}" in
-# TODO: echo currently clocked in project 
   in)   _t_in "$@";;
-# TODO: echo clocked out project
+  i)   _t_in "$@";;
   out) _t_out "$@";;
+  o) _t_out "$@";;
   sw)   _t_sw "$@";;
   bal) _t_ledger bal "$@";;
   reg) _t_ledger reg "$@";;
@@ -130,6 +172,7 @@ case "${action}" in
   lw) _t_ledger $_args "last week" "$@";;
   switch)   _t_sw "$@";;
   edit) _t_do $EDITOR_BIN "$@";;
+  upd) hledger -f $timelog print > ~/.task/hooks/task-timelog-hook/test.ledger;;
   cur)  _t_cur "$@";;
   last^^^^^) _t_last 6 "$@";;
   last^^^^) _t_last 5 "$@";;
