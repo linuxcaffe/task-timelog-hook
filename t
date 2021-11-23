@@ -6,6 +6,8 @@ timelog=.task/hooks/task-timelog-hook/tw.timeclock
 # if [ $TIMELOG ] then $timelog = $TIMELOG
 # fi
 
+tz="America/Chicago"
+
 EDITOR_BIN='vi +'
 # if [ $EDITOR ] then EDITOR_BIN = $EDITOR
 # fi
@@ -41,11 +43,15 @@ _t_do() {
 # Clock in to the given project
 # Clock in to the last project if no project is given
 _t_in() {
-	in="i $(TZ=America/Chicago date "+%Y-%m-%d %H:%M:%S")"
+#	in="i $(TZ=America/Chicago date "+%Y-%m-%d %H:%M:%S")"
+	in="i $(TZ=$tz date "+%Y-%m-%d %H:%M:%S")"
 	status=$(grep '^i \|^o ' "$timelog" |tail -n1 |head -c1)
 	if [ -n "$1" ]; then
-		in+=" "
-		in+="$1"
+    account="$1"
+		in+=" $account"
+  else
+    account=$(grep '^i ' "$timelog" |tail -n1 |cut -f 4 -d' ' |grep .)
+		in+=" $account"
 	fi
 	if [ -n "$2" ]; then
     desc="${@:2}"
@@ -53,49 +59,79 @@ _t_in() {
   fi
 	if [ "$status" == "o" ] || [ "$status" == "" ]; then
 		echo "$in" >> "$timelog"
-    echo "clocked in to $1 - $desc - at $(date "+%H:%M")" >&2
-#		echo "$in"
+    echo "$account  $desc"
+    echo "CLOCKED IN at $(date "+%r")" >&2
 	elif [ "$status" == "i" ]; then
-		echo "already clocked in" >&2
-		echo "clock out and then in" >&2
-#		_t_out
-#		_t_in "$1"
+	  account=$(grep '^i ' "$timelog" |tail -n1 |cut -f 4 -d' ' |grep .)
+	  desc=$(grep '^i ' "$timelog" |tail -n1 |cut -f 5- -d' ' |grep .)
+	if [ -n "$1" ]; then
+    new_account="$1"
+	fi
+	if [ -n "$2" ]; then
+    new_desc="${@:2}"
+  fi
+		echo "already clocked in to  $account  $desc" >&2
+    echo "CLOCK OUT and then IN to  $new_account  $new_desc ? (Y/n) >" >&2
 	fi
 }
 
 # Clock out
 _t_out() {
 	status=$(grep '^i \|^o ' "$timelog" |tail -n 1 |head -c 1)
-	out="o $(TZ=America/Chicago date "+%Y-%m-%d %H:%M:%S")"
-	account=$(grep '^i \|^o ' "$timelog" |tail -n 1 |cut -f4- -d' '|grep .)
+	out="o $(TZ=$tz date "+%Y-%m-%d %H:%M:%S")"
+	account=$(grep '^i ' "$timelog" |tail -n 1 |cut -f 4- -d' ' |grep .)
 	if [ -n "$1" ]; then
-		out+=" "
-		out+="$1"
+    comment=" ;  $@"
+		out+="$comment"
+  else
+    comment=""
 	fi
 	if [ "$status" == "i" ]; then
 		echo "$out" >> "$timelog"
-  export PS2=">"
+    echo "" >> "$timelog"
 		if [ "$account" != "" ]; then
-			echo "account:" "$account" >&2
+			echo "$account$comment" >&2
 		else
-			echo "account: none" >&2
+      account_none="account:none"
+      out+=" $account_none"
+		  echo "$out" >> "$timelog"
+      echo "" >> "$timelog"
+			echo "$account" >&2
 		fi
-    echo "clocked out at $(date "+%H:%M")" >&2
+    echo "CLOCKED OUT at $(date "+%r")" >&2
 	else
-		echo "not clocked in" >&2
+    echo "can't clock OUT" >&2
+		echo "not clocked IN" >&2
 	fi
 }
 
-function status() {
-	entry=$(tail -n1 "$timelog")
-	status=$(echo "$entry"|head -c1)
+#function status() {
+#	entry=$(tail -n1 "$timelog")
+#	status=$(echo "$entry"|head -c1)
+#	if [ "$status" == "i" ]; then
+#		echo "clocked in" >&2
+#	elif [ "$status" == "o" ]; then
+#		echo "clocked out" >&2
+#	fi
+#	echo "$entry"
+#}
+
+_t_status() {
+	status=$(grep '^i \|^o ' "$timelog" |tail -n 1 |head -c 1)
+	account=$(grep '^i ' "$timelog" |tail -n 1 |cut -f 4 -d' ' |grep .)
 	if [ "$status" == "i" ]; then
-		echo "clocked in" >&2
-	elif [ "$status" == "o" ]; then
-		echo "clocked out" >&2
-	fi
-	echo "$entry"
-}
+	  in_time=$(grep '^i ' "$timelog" |tail -n 1 |cut -f 3 -d' ' |grep .)
+    echo "timelog status: clocked IN to $account at $in_time"
+    echo "clock OUT? {Y/n) >"
+  else
+	  out_time=$(grep '^o ' "$timelog" |tail -n 1 |cut -f 3 -d' ' |grep .)
+    echo "timelog status; not clocked IN"
+    echo "last entry was $account, OUT at $out_time" >&2
+# TODO:implement a verbosity level, following would be lev:2
+    echo "(\"t i\" to clock IN to $account again)" >&2
+  fi
+  }
+
 
 # Show the currently clocke:bnd-in project
 _t_cur() {
@@ -107,18 +143,20 @@ _t_last() {
   sed -ne '/^o/{g;p;};h;' "${timelog}" | tail -n $1 | head -n 1 | __t_extract_project
 }
 
+
 # Show usage
 _t_usage() {
   # TODO
   cat << EOF
 Usage: t action
 actions:
-     in - clock into project or last project
-     out - clock out of project
-     sw,switch - switch projects
-     bal - balance [args]
-     reg - register [args]
-     hours,td - balance for today
+     i|in - clock into project or last project
+     o|out - clock out of project
+     s|sw,switch - switch projects
+     c|cur - show currently open project
+     b|bal - balance [args]
+     r|reg - register [args]
+     t|today - balance for today
      yd,yesterday - balance for yesterday
      yd^ - balance for 2 days ago
      tw,thisweek - balance for this week
@@ -154,13 +192,18 @@ action=$1; shift
 [ "$TIMELOG" ] && timelog="$TIMELOG" || timelog="${HOME}/$timelog"
 
 case "${action}" in
+  "") _t_status;;
   in)   _t_in "$@";;
   i)   _t_in "$@";;
   out) _t_out "$@";;
   o) _t_out "$@";;
+  switch)   _t_sw "$@";;
   sw)   _t_sw "$@";;
+  cur)  _t_cur "$@";;
+  status) status;;
   bal) _t_ledger bal "$@";;
   reg) _t_ledger reg "$@";;
+  accounts) grep '^i ' "$timelog" |awk '{print $4}'|sort|uniq;;
   hours) _t_ledger bal -p "since today" "$@";;
   td) _t_ledger bal -p "since today" "$@";;
   yesterday) _t_ledger bal -p "yesterday" "$@";;
