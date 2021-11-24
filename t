@@ -24,6 +24,24 @@ EDITOR_BIN='vi +'
 #   if $LEDGER_BIN = "hledger" then $TIMELOG_FILE = "$TIMELOG_FILE $TIMEDOT_FILE"
 #   fi
 
+# Ansi color code variables
+red="\e[0;91m"
+blue="\e[0;94m"
+# expand_bg="\e[K"
+# blue_bg="\e[0;104m${expand_bg}"
+# red_bg="\e[0;101m${expand_bg}"
+# green_bg="\e[0;102m${expand_bg}"
+green="\e[0;92m"
+# white="\e[0;97m"
+# bold="\e[1m"
+# uline="\e[4m"
+reset="\e[0m"
+#
+# # horizontally expanded backgrounds
+# echo -e "${blue_bg}${reset}"
+# echo -e "${red_bg}${reset}"
+# echo -e "${green_bg}${reset}"
+
 # Show current timelog
 _t_timelog() {
   echo "$timelog"
@@ -59,7 +77,7 @@ _t_in() {
 	if [ "$status" == "o" ] || [ "$status" == "" ]; then
 		echo "$in" >> "$timelog"
     echo "$account - $desc"
-    echo "CLOCKED IN at $(date "+%r")" >&2
+    echo -e "${green}CLOCKED IN${reset} at $(date "+%r")" >&2
 	elif [ "$status" == "i" ]; then
 	  account=$(grep '^i ' "$timelog" |tail -n1 |cut -f 4 -d' ' |grep .)
 	  desc=$(grep '^i ' "$timelog" |tail -n1 |cut -f 5- -d' ' |grep .)
@@ -72,7 +90,26 @@ _t_in() {
     new+="  $new_desc"
   fi
 		echo "already clocked in to - $account - $desc" >&2
-    echo "CLOCK OUT and then IN to - $new ? (Y/n) >" >&2
+    read -n 1 -p "CLOCK OUT and then IN to - $new ? [Y/n] >" reply; 
+      if [ "$reply" != "" ]; then echo; fi
+      if [ "$reply" = "${reply#[Nn]}" ]; then
+      	out="o $(TZ=$tz date "+%Y-%m-%d %H:%M:%S")"
+        echo "$out" >> "$timelog"
+        echo "" >> "$timelog"
+			  echo "$account - $desc " >&2
+        echo -e "${red}CLOCKED OUT${reset} at $(date "+%r")" >&2
+        echo "---"
+      	in="i $(TZ=$tz date "+%Y-%m-%d %H:%M:%S")"
+        in+="$new"
+        echo "$in" >> "$timelog"
+        echo "$new_account - $new_desc"
+        echo -e "${green}CLOCKED IN${reset} at $(date "+%r")" >&2
+      else
+        echo "Okay"
+      fi
+
+
+ #   echo "CLOCK OUT and then IN to - $new ? (Y/n) >" >&2
 	fi
 }
 
@@ -100,10 +137,10 @@ _t_out() {
       echo "" >> "$timelog"
 			echo "$account - $desc - $comment" >&2
 		fi
-    echo "CLOCKED OUT at $(date "+%r")" >&2
+    echo -e "${red}CLOCKED OUT${reset} at $(date "+%r")" >&2
 	else
-    echo "can't clock OUT" >&2
-		echo "not clocked IN" >&2
+    echo -e "can't clock ${red}OUT${reset}" >&2
+		echo -e "not clocked ${green}IN${reset}" >&2
 	fi
 }
 
@@ -113,15 +150,14 @@ _t_status() {
 	desc=$(grep '^i ' "$timelog" |tail -n1 |cut -f 5- -d' ' |grep .)
 	if [ "$status" == "i" ]; then
 	  in_time=$(grep '^i ' "$timelog" |tail -n 1 |cut -f 3 -d' ' |grep .)
-    echo "timelog status: clocked IN to - $account - $desc - at $in_time"
-    echo "clock OUT? {Y/n) >"
+    echo -e "${blue}status :${reset} ${green} ${blue}clocked${reset} ${green}IN${reset} to - $account - $desc - ${blue}at${reset} $in_time"
+    echo "${blue}clock${reset} ${red}OUT${reset} ${blue}?${reset} (Y/n) >"
   else
 	  comment=$(grep '^o ' "$timelog" |tail -n1 |cut -f 4- -d' ' |grep .)
 	  out_time=$(grep '^o ' "$timelog" |tail -n 1 |cut -f 3 -d' ' |grep .)
-    echo "timelog status; not clocked IN"
-    echo "last entry was $account$desc$comment, OUT at $out_time" >&2
+    echo -e "${blue}status${reset}; $account$desc$comment ${blue}clocked${reset} ${red}OUT${reset} ${blue}at${reset} $out_time" >&2
 # TODO: implement a verbosity level, following would be lev:2
-    echo "clock IN to $account again ? (Y/n)" >&2
+    echo -e "${blue}clock IN to${reset} $account ${blue}again ?${reset} (Y/n)" >&2
   fi
   }
 
@@ -143,8 +179,8 @@ _t_usage() {
   cat << EOF
 Usage: t action ( t<CR> for status )
 actions:
-     i|in - <acct:sub> [desc] 
-     o|out - clock out [comment]
+     i|in <acct:sub> [desc] 
+     o|out [comment]
      a|accounts - list accounts used
      e|edit - edit timelog file
      f|file - show timelog file
