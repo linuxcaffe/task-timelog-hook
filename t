@@ -150,8 +150,8 @@ _t_status() {
 	desc=$(grep '^i ' "$timelog" |tail -n1 |cut -f 5- -d' ' |grep .)
 	if [ "$status" == "i" ]; then
 	  in_time=$(grep '^i ' "$timelog" |tail -n 1 |cut -f 3 -d' ' |grep .)
-    echo -e "${blue}status :${reset} ${green} ${blue}clocked${reset} ${green}IN${reset} to - $account - $desc - ${blue}at${reset} $in_time"
-    echo "${blue}clock${reset} ${red}OUT${reset} ${blue}?${reset} (Y/n) >"
+    echo -e "${blue}status : clocked${reset} ${green}IN${reset} to - $account - $desc - ${blue}at${reset} $in_time"
+    echo -e "${blue}clock${reset} ${red}OUT${reset} ${blue}?${reset} (Y/n) >"
   else
 	  comment=$(grep '^o ' "$timelog" |tail -n1 |cut -f 4- -d' ' |grep .)
 	  out_time=$(grep '^o ' "$timelog" |tail -n 1 |cut -f 3 -d' ' |grep .)
@@ -177,29 +177,34 @@ _t_last() {
 _t_usage() {
   # TODO
   cat << EOF
-Usage: t action ( t<CR> for status )
-actions:
-     i|in <acct:sub> [desc] 
-     o|out [comment]
-     a|accounts - list accounts used
-     e|edit - edit timelog file
-     f|file - show timelog file
-     g|grep - grep [args] (incl desc & comments)
-     b|bal - balance [args]
-     p|print - print [args]
-     r|reg - register [args]
-     t|today - balance for today
-     yd|yesterday - balance for yesterday
-     yd^ - balance for 2 days ago
-     tw|thisweek - balance for this week
-     lw|lastweek - balance for last week
-     last - show last closed project
-     last^ to last^^^^^ - show nth last closed project
-     head - show start of timelog
-     tail - show end of timelog
-     less - show timelog in pager
+Usage: t<space><action> or t<CR> for status        "t" is for "timelog"
+  actions:
+     i|in <account:sub> [desc] [; comment]      td|today - balance today
+     o|out [comment]                            yd|yesterday - bal yesterday
+     a|accounts - list accounts used            yd^ - balance for 2 days ago
+     b|bal - balance report [args]              tw|thisweek - bal for this week
+  *  c|comm - add comment                       lw|lastweek - bal for last week
+  *  d|dot - open timedot file (hledger)        tm|thismonth - bal for this mo
+     e|edit - edit timelog file                 lm|lastmonth - bal for last mo
+     f|file - show timelog file                 
+     g|grep - grep [args]                       for more details see README.md
+     h|help - (you're looking at it)            
+  *  l|log - record previous event              for report args and options
+     p|print - print [args]                     ledger-cli.org or man ledger 
+     r|reg - register [args]                      or  
+     s|stats                                    hledger.org, run hledger<CR>
+     t|tail - show end of timelog
+  *  u|ui - open in hledger-ui
+  *  v|version
+  *  w|write - print timedot > ledger
+  *  z|zip - backup files                       report issues/fixes to 
+#        ( * = planned )         https://github.com/linuxcaffe/task-timelog-hook/
 EOF
 }
+
+#hms_to_hours() {
+#      echo "$1" | awk -F: '{ print (($1 * 3600) + ($2 * 60) + $3) / 3600 }'
+#    }
 
 #
 # INTERNAL FUNCTIONS
@@ -256,7 +261,7 @@ case "${action}" in
   head)  _t_do head "$@";;
   tail)  _t_do tail "$@";;
   less)  _t_do less;;
-  upd) hledger -f $timelog print > ~/.task/hooks/task-timelog-hook/test.ledger;;
+  upd) _t_do hledger -f $timedot print > ~/.task/hooks/task-timelog-hook/timedot.ledger;;
 
   h)    _t_usage;;
   *)    _t_usage;;
