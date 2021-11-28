@@ -104,4 +104,37 @@ it:tw:timelog     .... .... ....
 ### Sunday
 2021/11/21
 sleep             9
+cats              1.5
+it:tw:timelog     .... .... .... ....  
+ent:youtube       .... ..
+
+### Monday
+2021/11/22
+sleep             7
+job:hh            8.5
+home:cats         2
+home laundry      2.5
+it:tw:timelog     4.5
+
+### Tuesday
+2021/11/23
+sleep             6
+job:JandD:fan     2
+
+### Wednesday
+2021/11/24
+job:JandL:roof    6
+
+### Thursday
+2021/11/25
+job:hh            8.5
+include
+include
+
+### Friday
+2021/11/26
+sleep             7
+job:hh            8.5
+
+
 

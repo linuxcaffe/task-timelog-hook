@@ -1,28 +1,44 @@
 #!/bin/bash
+######################################################## v.0.6
+#   _             _   _                _               #
+#  | |_          | |_(_)_ __ ___   ___| | ___   __ _   #
+#  | __|   IS    | __| | '_ ` _ \ / _ \ |/ _ \ / _` |  #
+#  | |_    FOR   | |_| | | | | | |  __/ | (_) | (_| |  #
+#   \__|          \__|_|_| |_| |_|\___|_|\___/ \__, |  #
+#                                              |___/   #
+#                                                      #
+########################################################
 # t is a utility to work with (h)ledger *.timeclock files
-# see github.com/linuxcaffe/task-timelog-hook
+# see github.com/linuxcaffe/task-timelog-hook/
 
+########## User Configs #######################
 timelog=.task/hooks/task-timelog-hook/tw.timeclock
 # if [ $TIMELOG ] then $timelog = $TIMELOG
 # fi
-
+#
+### Timezone
 tz="Canada/Eastern"
-
-EDITOR_BIN='vi +'
+#
+### Editor
+EDITOR_BIN="vi +"
 # if [ $EDITOR ] then EDITOR_BIN = $EDITOR
 # fi
-
+#
+### Ledger binary
 # This script could be configurable to use ledger or hledger 
 # TODO: s/ledger/$LEDGER_BIN/g .. carefully!)
-# LEDGER_BIN = ledger
+# LEDGER_BIN=ledger
 #   if [ $LEDGER ] then LEDGER_BIN = $LEDGER
 #   fi
-
+#
+### Timedot file
 # timedot file can only be read by hledger, so only include it if hledger is set
-# timedot=' -f /home/djp/.task/hooks/task-timelog-hook/test.ledger'
-# TIMEDOT_FILE = path/to/my.timedot
+timedot="~/.task/hooks/task-timelog-hook/tw.timedot"
+# TIMEDOT_FILE=path/to/my.timedot
 #   if $LEDGER_BIN = "hledger" then $TIMELOG_FILE = "$TIMELOG_FILE $TIMEDOT_FILE"
 #   fi
+###################################################
+
 
 # Ansi color code variables
 red="\e[0;91m"
@@ -75,10 +91,12 @@ _t_in() {
     in+="  $desc"
   fi
 	if [ "$status" == "o" ] || [ "$status" == "" ]; then
+    echo "" >> "$timelog"
 		echo "$in" >> "$timelog"
     echo "$account - $desc"
     echo -e "${green}CLOCKED IN${reset} at $(date "+%r")" >&2
-	elif [ "$status" == "i" ]; then
+
+  elif [ "$status" == "i" ]; then
 	  account=$(grep '^i ' "$timelog" |tail -n1 |cut -f 4 -d' ' |grep .)
 	  desc=$(grep '^i ' "$timelog" |tail -n1 |cut -f 5- -d' ' |grep .)
 	if [ -n "$1" ]; then
@@ -90,7 +108,7 @@ _t_in() {
     new+="  $new_desc"
   fi
 		echo "already clocked in to - $account - $desc" >&2
-    read -n 1 -p "CLOCK OUT and then IN to - $new ? [Y/n] >" reply; 
+    read -n 1 -p "clock OUT and then IN to - $new ? [Y/n] >" reply; 
       if [ "$reply" != "" ]; then echo; fi
       if [ "$reply" = "${reply#[Nn]}" ]; then
       	out="o $(TZ=$tz date "+%Y-%m-%d %H:%M:%S")"
@@ -127,14 +145,12 @@ _t_out() {
 	fi
 	if [ "$status" == "i" ]; then
 		echo "$out" >> "$timelog"
-    echo "" >> "$timelog"
 		if [ "$account" != "" ]; then
 			echo "$account - $desc - $comment" >&2
 		else
       account_none="account:none"
       out+=" $account_none"
 		  echo "$out" >> "$timelog"
-      echo "" >> "$timelog"
 			echo "$account - $desc - $comment" >&2
 		fi
     echo -e "${red}CLOCKED OUT${reset} at $(date "+%r")" >&2
@@ -145,17 +161,20 @@ _t_out() {
 }
 
 _t_status() {
+# TODO: check that timelog file exists, else, create one?
+# TODO: check that timelog entries exist, else; help; Usage
+# TODO: check that ledger_bin exists, else; help
 	status=$(grep '^i \|^o ' "$timelog" |tail -n 1 |head -c 1)
 	account=$(grep '^i ' "$timelog" |tail -n 1 |cut -f 4 -d' ' |grep .)
 	desc=$(grep '^i ' "$timelog" |tail -n1 |cut -f 5- -d' ' |grep .)
 	if [ "$status" == "i" ]; then
 	  in_time=$(grep '^i ' "$timelog" |tail -n 1 |cut -f 3 -d' ' |grep .)
-    echo -e "${blue}status : clocked${reset} ${green}IN${reset} to - $account - $desc - ${blue}at${reset} $in_time"
-    echo -e "${blue}clock${reset} ${red}OUT${reset} ${blue}?${reset} (Y/n) >"
+    echo -e "${blue}status: clocked${reset} ${green}IN${reset} ${blue}to${reset} $account $desc ${blue}at${reset} $in_time"
+    echo -e "${blue}clock OUT ?${reset} (Y/n) >"
   else
 	  comment=$(grep '^o ' "$timelog" |tail -n1 |cut -f 4- -d' ' |grep .)
 	  out_time=$(grep '^o ' "$timelog" |tail -n 1 |cut -f 3 -d' ' |grep .)
-    echo -e "${blue}status${reset}; $account$desc$comment ${blue}clocked${reset} ${red}OUT${reset} ${blue}at${reset} $out_time" >&2
+    echo -e "${blue}status: clocked${reset} ${red}OUT${reset} ${blue}of${reset} $account$desc$comment ${blue}at${reset} $out_time" >&2
 # TODO: implement a verbosity level, following would be lev:2
     echo -e "${blue}clock IN to${reset} $account ${blue}again ?${reset} (Y/n)" >&2
   fi
@@ -186,19 +205,19 @@ Usage: t<space><action> or t<CR> for status        "t" is for "timelog"
   *  c|comm - add comment                       lw|lastweek - bal for last week
   *  d|dot - open timedot file (hledger)        tm|thismonth - bal for this mo
      e|edit - edit timelog file                 lm|lastmonth - bal for last mo
-     f|file - show timelog file                 
-     g|grep - grep [args]                       for more details see README.md
-     h|help - (you're looking at it)            
-  *  l|log - record previous event              for report args and options
-     p|print - print [args]                     ledger-cli.org or man ledger 
-     r|reg - register [args]                      or  
-     s|stats                                    hledger.org, run hledger<CR>
-     t|tail - show end of timelog
-  *  u|ui - open in hledger-ui
-  *  v|version
+     f|file - show timelog file         _             
+     g|grep - grep [args]              | |_     For report args and options see
+     h|help - (you're looking at it)   | __|    ledger-cli.org or man ledger 
+  *  l|log - record previous event     | |_      or  
+     p|print - print [args]             \__|    hledger.org, run hledger<CR>
+     r|reg - register [args]                   
+     s|stats                                    For user configs edit this file
+     t|tail - show end of timelog               For corrections edit timeclock 
+  *  u|ui - open in hledger-ui                  For more details see README.md
+  *  v|version                                  
   *  w|write - print timedot > ledger
-  *  z|zip - backup files                       report issues/fixes to 
-#        ( * = planned )         https://github.com/linuxcaffe/task-timelog-hook/
+  *  z|zip - backup files                       Please report issues/fixes to 
+      ( * = planned )          https://github.com/linuxcaffe/task-timelog-hook/
 EOF
 }
 

@@ -8,3 +8,9 @@ working on t,
 - added "i" and "o"
 - allowed following arguments (payee field) 2space separated
 - ignore all lines that don't start with "i " or "o "
+- reworked use-last-account, if none specified
+- prettied prompts
+
+Tue Nov 23 16:58:37 EST 2021
+- added timezone variable
+- rewrote status function, bind to "T"<no args>

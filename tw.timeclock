@@ -21,29 +21,57 @@ o 2021-11-19 04:13:08
 i 2021-11-21 15:00:05 it:tw:timelog  scripting t
 o 2021-11-21 15:00:33
 i 2021-11-21 15:02:11 it:tw:timelog  more scripting t
-o 2021-11-21 15:02:21
-i 2021-11-21 15:20:58 timelog1  timelog1 testing:2
-# a comment
+o 2021-11-21 19:02:21
 
-# a blank line
+i 2021-11-23 00:53:39 timelog  testing
+o 2021-11-23 00:58:13
 
-o 2021-11-21 15:45:03
-i 2021-11-21 15:45:24 timelog:3  commenal
-o 2021-11-21 15:53:44
-i 2021-11-21 16:33:35 timelog:4
-o 2021-11-21 16:35:04
-i 2021-11-21 16:35:21 timelog:5  messing with arguments
-o 2021-11-21 16:35:30
-i 2021-11-21 16:51:16 timedot:5
-o 2021-11-21 16:55:25
-i 2021-11-21 16:55:50 timedot:6  pushing prompt
-o 2021-11-21 17:48:35
-i 2021-11-21 17:48:52 timedot:7  pushing prompt harder
-o 2021-11-21 17:49:31
-i 2021-11-21 17:49:45 timedot:7  pushing prompt hardest
-o 2021-11-21 17:50:32
-i 2021-11-21 17:50:42 timedot:8  pushing prompt hardest
-o 2021-11-21 18:08:39
-i 2021-11-21 18:08:59 timedot:9  pushing prompt hardly
-o 2021-11-21 18:09:56
-i 2021-11-21 18:10:06 timedot:10  pushing prompt hardly
+i 2021-11-23 01:21:44 timelog  testing
+o 2021-11-23 01:21:48  ; with a comment and a newline
+
+i 2021-11-23 08:04:26 home:breakfast
+o 2021-11-23 08:17:48
+
+i 2021-11-23 11:04:27 home:breakfast
+o 2021-11-23 11:04:37
+
+i 2021-11-23 11:09:38 home:breakfast
+o 2021-11-23 11:09:50  ; a comment
+
+
+i 2021-11-23 17:43:00 timelog:geez  w t f
+o 2021-11-23 17:43:19  ; be cuz
+
+i 2021-11-24 01:18:02 timelog:geez
+o 2021-11-24 01:24:23  ; comment
+
+i 2021-11-24 01:42:18 timelog:m  would you believe
+o 2021-11-24 01:43:19
+
+i 2021-11-24 02:12:46 timelog:m
+o 2021-11-24 02:12:59  ; commint
+
+i 2021-11-24 22:14:51 ent:youtube  Colbert
+o 2021-11-24 22:57:01
+
+i 2021-11-24 22:57:38 ent:youtube
+o 2021-11-24 23:10:41
+
+i 2021-11-24 23:10:41 home:shower
+o 2021-11-24 23:33:40
+
+i 2021-11-25 20:27:48 home:dinner
+o 2021-11-25 21:00:13
+
+i 2021-11-25 21:18:15 ent:youtube  Colbert
+o 2021-11-25 21:55:55
+
+i 2021-11-25 22:15:40 ent:movie  Hawkeye
+o 2021-11-25 23:10:07  ; ep: 1
+
+i 2021-11-25 23:10:49 ent:movie
+o 2021-11-25 23:49:27
+
+i 2021-11-26 18:58:39 timelog  bashing
+o 2021-11-26 19:56:12
+

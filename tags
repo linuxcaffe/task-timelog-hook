@@ -22,8 +22,6 @@ LEDGERFILE	on-modify-timeclock.py	/^    LEDGERFILE = os.environ['TIMELOG']$/;"	v
 LEDGERFILE	on-modify-timeclock.py	/^LEDGERFILE = "%s\/.task\/hooks\/task-timelog-hook\/tw.timeclock" % os.getenv('HOME')$/;"	v
 RECOMMENDED	README.md	/^## RECOMMENDED$/;"	s	chapter:task-timelog-hook
 Requirements	README.md	/^### Requirements$/;"	S	section:task-timelog-hook""INSTALL
-Timeclock	README.md	/^### Timeclock$/;"	S	section:task-timelog-hook""USAGE
-Timedot	README.md	/^### Timedot$/;"	S	section:task-timelog-hook""USAGE
 USAGE	README.md	/^## USAGE$/;"	s	chapter:task-timelog-hook
 __t_extract_project	t	/^__t_extract_project() {$/;"	f
 _t_cur	t	/^_t_cur() {$/;"	f
@@ -32,7 +30,7 @@ _t_in	t	/^_t_in() {$/;"	f
 _t_last	t	/^_t_last() {$/;"	f
 _t_ledger	t	/^_t_ledger() {$/;"	f
 _t_out	t	/^_t_out() {$/;"	f
-_t_sw	t	/^_t_sw() {$/;"	f
+_t_status	t	/^_t_status() {$/;"	f
 _t_timelog	t	/^_t_timelog() {$/;"	f
 _t_usage	t	/^_t_usage() {$/;"	f
 adjust_date	on-modify-timeclock.py	/^def adjust_date(d, adjust_by):$/;"	f
