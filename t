@@ -11,7 +11,8 @@
 # t is a utility to work with (h)ledger *.timeclock files
 # see github.com/linuxcaffe/task-timelog-hook/
 
-########## User Configs #######################
+
+## User Configs #######################################
 timelog=.task/hooks/task-timelog-hook/tw.timeclock
 # if [ $TIMELOG ] then $timelog = $TIMELOG
 # fi
@@ -37,7 +38,7 @@ timedot="~/.task/hooks/task-timelog-hook/tw.timedot"
 # TIMEDOT_FILE=path/to/my.timedot
 #   if $LEDGER_BIN = "hledger" then $TIMELOG_FILE = "$TIMELOG_FILE $TIMEDOT_FILE"
 #   fi
-###################################################
+## End User Configs ###################################
 
 
 # Ansi color code variables
