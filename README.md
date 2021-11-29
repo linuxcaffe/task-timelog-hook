@@ -33,7 +33,7 @@ Timelog entries can be created taskwarrior start/stop commands, or directly by e
 ```
 Usage: t<space><action> or t<CR> for status        "t" is for "timelog"
   actions:
-     i|in <account:sub> [desc] [; comment]      td|today - balance today
+     i|in <account:sub> [desc] [-- comment]      td|today - balance today
      o|out [comment]                            yd|yesterday - bal yesterday
      a|accounts - list accounts used            yd^ - balance for 2 days ago
      b|bal - balance report [args]              tw|thisweek - bal for this week
@@ -50,11 +50,12 @@ Usage: t<space><action> or t<CR> for status        "t" is for "timelog"
      t|tail - show end of timelog               For corrections edit timelog 
   *  u|ui - open in hledger-ui                  For more details see README.md
   *  v|version                                  
-  *  w|write - print timedot > ledger
+  *  w|web - open timelog in browser
   *  z|zip - backup files                       Please report issues/fixes to 
       ( * = planned )          https://github.com/linuxcaffe/task-timelog-hook/
-- Timedot
 ```
+### Timedot
+
 ## CREDITS
 
 This hook is based entirely on https://gist.github.com/wbsch/d977b0ac29aa1dfa4437 by Wilhelm Schürmann in 2015, and it works just great! I'm expanding the gist to a github repo to provide documentation and tweaks where needed.
