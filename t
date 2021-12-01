@@ -1,5 +1,5 @@
 #!/bin/bash
-######################################################## v.0.6
+######################################################## v.0.6.3
 #   _             _   _                _               #
 #  | |_          | |_(_)_ __ ___   ___| | ___   __ _   #
 #  | __|   IS    | __| | '_ ` _ \ / _ \ |/ _ \ / _` |  #
@@ -34,14 +34,14 @@ EDITOR_BIN="vi +"
 #
 ### Timedot file
 # timedot file can only be read by hledger, so only include it if hledger is set
-timedot="~/.task/hooks/task-timelog-hook/tw.timedot"
+# timedot="~/.task/hooks/task-timelog-hook/tw.timedot"
 # TIMEDOT_FILE=path/to/my.timedot
 #   if $LEDGER_BIN = "hledger" then $TIMELOG_FILE = "$TIMELOG_FILE $TIMEDOT_FILE"
 #   fi
 ## End User Configs ###################################
 
 
-# Ansi color code variables
+### Ansi color code variables ####################
 red="\e[0;91m"
 blue="\e[0;94m"
 # expand_bg="\e[K"
@@ -58,6 +58,9 @@ reset="\e[0m"
 # echo -e "${blue_bg}${reset}"
 # echo -e "${red_bg}${reset}"
 # echo -e "${green_bg}${reset}"
+# End Color variables #############################
+
+
 
 # Show current timelog
 _t_timelog() {
@@ -75,114 +78,138 @@ _t_do() {
     ${action} "$@" "${timelog}"
 }
 
-# Clock in to the given project
-# Clock in to the last project if no project is given
+# _t_timedot() {
+#   $EDITOR_BIN "$timedot"
+# }
+
+# Clock IN
 _t_in() {
-	in="i $(TZ=$tz date "+%Y-%m-%d %H:%M:%S")"
-	status=$(grep '^i \|^o ' "$timelog" |tail -n1 |head -c1)
-	if [ -n "$1" ]; then
+  in="i $(TZ=$tz date "+%Y-%m-%d %H:%M:%S")"
+  status=$(grep '^i \|^o ' "$timelog" |tail -n1 |head -c1)
+  if [ -n "$1" ]; then
     account="$1"
-  	in+=" $account"
+    in+=" $account"
   else
     account=$(grep '^i ' "$timelog" |tail -n1 |cut -f 4 -d' ' |grep .)
-		in+=" $account"
-	fi
-	if [ -n "$2" ]; then
+    in+=" $account"
+  fi
+  if [ -n "$2" ]; then
     desc="${@:2}"
     in+="  $desc"
   fi
-	if [ "$status" == "o" ] || [ "$status" == "" ]; then
+  if [ "$status" == "o" ] || [ "$status" == "" ]; then
     echo "" >> "$timelog"
-		echo "$in" >> "$timelog"
-    echo "$account - $desc"
-    echo -e "${green}CLOCKED IN${reset} at $(date "+%r")" >&2
+    echo "$in" >> "$timelog"
+    echo "$account $desc"
+    echo -e "${green}CLOCKED IN${reset} ${blue}at${reset} $(date "+%r")" >&2
 
   elif [ "$status" == "i" ]; then
-	  account=$(grep '^i ' "$timelog" |tail -n1 |cut -f 4 -d' ' |grep .)
-	  desc=$(grep '^i ' "$timelog" |tail -n1 |cut -f 5- -d' ' |grep .)
-	if [ -n "$1" ]; then
+    account=$(grep '^i ' "$timelog" |tail -n1 |cut -f 4 -d' ' |grep .)
+    desc=$(grep '^i ' "$timelog" |tail -n1 |cut -f 5- -d' ' |grep .)
+  if [ -n "$1" ]; then
     new_account="$1"
-    new=" $new_account"
-	fi
-	if [ -n "$2" ]; then
-    new_desc="${@:2}"
-    new+="  $new_desc"
+    new_entry=" $new_account"
   fi
-		echo "already clocked in to - $account - $desc" >&2
-    read -n 1 -p "clock OUT and then IN to - $new ? [Y/n] >" reply; 
+#  else
+#    echo -e "${blue}Already clocked${reset} ${green}IN${reset} ${blue}to${reset} $account $desc" >&2
+#    echo -e "${blue}Clock OUT?${reset} (Y/n) >"
+
+  if [ -n "$2" ]; then
+    new_desc="${@:2}"
+    new_entry+="  $new_desc"
+  fi
+    echo -e "${blue}already clocked${reset} ${green}IN${reset} ${blue}to${reset} $account $desc" >&2
+    read -n 1 -p "clock OUT and then IN to $new_entry ? [Y/n] >" reply; 
       if [ "$reply" != "" ]; then echo; fi
       if [ "$reply" = "${reply#[Nn]}" ]; then
-      	out="o $(TZ=$tz date "+%Y-%m-%d %H:%M:%S")"
+        out="o $(TZ=$tz date "+%Y-%m-%d %H:%M:%S")"
         echo "$out" >> "$timelog"
+        echo "$account $desc "
+        echo -e "${red}CLOCKED OUT${reset} ${blue}at${reset} $(date "+%r")" >&2
+        in="i $(TZ=$tz date "+%Y-%m-%d %H:%M:%S")"
+        in+="$new_entry"
         echo "" >> "$timelog"
-			  echo "$account - $desc " >&2
-        echo -e "${red}CLOCKED OUT${reset} at $(date "+%r")" >&2
-        echo "---"
-      	in="i $(TZ=$tz date "+%Y-%m-%d %H:%M:%S")"
-        in+="$new"
         echo "$in" >> "$timelog"
-        echo "$new_account - $new_desc"
-        echo -e "${green}CLOCKED IN${reset} at $(date "+%r")" >&2
+        echo "$new_account $new_desc"
+        echo -e "${green}CLOCKED IN${reset} ${blue}at${reset} $(date "+%r")" >&2
       else
-        echo "Okay"
-      fi
-
-
- #   echo "CLOCK OUT and then IN to - $new ? (Y/n) >" >&2
-	fi
+        echo "${blue}Okay${reset}" >&2
+    fi
+  fi
 }
 
 # Clock out
 _t_out() {
-	status=$(grep '^i \|^o ' "$timelog" |tail -n 1 |head -c 1)
-	out="o $(TZ=$tz date "+%Y-%m-%d %H:%M:%S")"
-	account=$(grep '^i ' "$timelog" |tail -n 1 |cut -f 4 -d' ' |grep .)
-	desc=$(grep '^i ' "$timelog" |tail -n1 |cut -f 5- -d' ' |grep .)
-	if [ -n "$1" ]; then
+  status=$(grep '^i \|^o ' "$timelog" |tail -n 1 |head -c 1)
+  out="o $(TZ=$tz date "+%Y-%m-%d %H:%M:%S")"
+  account=$(grep '^i ' "$timelog" |tail -n 1 |cut -f 4 -d' ' |grep .)
+  desc=$(grep '^i ' "$timelog" |tail -n1 |cut -f 5- -d' ' |grep .)
+  if [ -n "$1" ]; then
     comment="$@"
-		out+="  ; $comment"
+    out+="  ; $comment"
   else
     comment=""
-	fi
-	if [ "$status" == "i" ]; then
-		echo "$out" >> "$timelog"
-		if [ "$account" != "" ]; then
-			echo "$account - $desc - $comment" >&2
-		else
+  fi
+  if [ "$status" == "i" ]; then
+    echo "$out" >> "$timelog"
+    if [ "$account" != "" ]; then
+      echo "$account $desc $comment" >&2
+    else
       account_none="account:none"
       out+=" $account_none"
-		  echo "$out" >> "$timelog"
-			echo "$account - $desc - $comment" >&2
-		fi
-    echo -e "${red}CLOCKED OUT${reset} at $(date "+%r")" >&2
-	else
-    echo -e "can't clock ${red}OUT${reset}" >&2
-		echo -e "not clocked ${green}IN${reset}" >&2
-	fi
+      echo "$out" >> "$timelog"
+      echo "$account - $desc - $comment" >&2
+  fi
+    echo -e "${red}CLOCKED OUT${reset} ${blue}at${reset} $(date "+%r")" >&2
+  else
+    echo -e "${blue}can't clock${reset} ${red}OUT${reset}" >&2
+    echo -e "${blue}not clocked${reset} ${green}IN${reset}" >&2
+  fi
 }
+
+# Add comment
+_t_comment() {
+  status=$(grep '^i \|^o ' "$timelog" |tail -n 1 |head -c 1)
+  account=$(grep '^i ' "$timelog" |tail -n 1 |cut -f 4 -d' ' |grep .)
+  desc=$(grep '^i ' "$timelog" |tail -n1 |cut -f 5- -d' ' |grep .)
+  time=$(date "+%H:%M:%S" )
+  if [ "$status" == "i" ]; then
+    in_time=$(grep '^i ' "$timelog" |tail -n 1 |cut -f 3 -d' ' |grep .)
+    echo -e "${blue}STATUS: clocked${reset} ${green}IN${reset} ${blue}to${reset} $account $desc ${blue}at${reset} $in_time"
+  else
+    echo -e "${blue}STATUS: clocked${reset} ${red}OUT${reset} ${blue}of${reset} $account$desc$comment ${blue}at${reset} $out_time" >&2
+  fi
+  if [ -n "$1" ]; then
+    comment="$@"
+  else
+    read -e -p "Add comment: " comment
+  fi
+    echo "; at: $time -- $comment" >> "$timelog"
+    echo -e "${blue}Added comment :${reset} $comment ${blue}at${reset} $time" >&2
+}
+
 
 _t_status() {
 # TODO: check that timelog file exists, else, create one?
 # TODO: check that timelog entries exist, else; help; Usage
 # TODO: check that ledger_bin exists, else; help
-	status=$(grep '^i \|^o ' "$timelog" |tail -n 1 |head -c 1)
-	account=$(grep '^i ' "$timelog" |tail -n 1 |cut -f 4 -d' ' |grep .)
-	desc=$(grep '^i ' "$timelog" |tail -n1 |cut -f 5- -d' ' |grep .)
-	if [ "$status" == "i" ]; then
-	  in_time=$(grep '^i ' "$timelog" |tail -n 1 |cut -f 3 -d' ' |grep .)
-    echo -e "${blue}status: clocked${reset} ${green}IN${reset} ${blue}to${reset} $account $desc ${blue}at${reset} $in_time"
+  status=$(grep '^i \|^o ' "$timelog" |tail -n 1 |head -c 1)
+  account=$(grep '^i ' "$timelog" |tail -n 1 |cut -f 4 -d' ' |grep .)
+  desc=$(grep '^i ' "$timelog" |tail -n1 |cut -f 5- -d' ' |grep .)
+  if [ "$status" == "i" ]; then
+    in_time=$(grep '^i ' "$timelog" |tail -n 1 |cut -f 3 -d' ' |grep .)
+    echo -e "${blue}STATUS: clocked${reset} ${green}IN${reset} ${blue}to${reset} $account $desc ${blue}at${reset} $in_time"
     echo -e "${blue}clock OUT ?${reset} (Y/n) >"
   else
-	  comment=$(grep '^o ' "$timelog" |tail -n1 |cut -f 4- -d' ' |grep .)
-	  out_time=$(grep '^o ' "$timelog" |tail -n 1 |cut -f 3 -d' ' |grep .)
-    echo -e "${blue}status: clocked${reset} ${red}OUT${reset} ${blue}of${reset} $account$desc$comment ${blue}at${reset} $out_time" >&2
-# TODO: implement a verbosity level, following would be lev:2
+    comment=$(grep '^o ' "$timelog" |tail -n1 |cut -f 4- -d' ' |grep .)
+    out_time=$(grep '^o ' "$timelog" |tail -n 1 |cut -f 3 -d' ' |grep .)
+    echo -e "${blue}STATUS: clocked${reset} ${red}OUT${reset} ${blue}of${reset} $account$desc$comment ${blue}at${reset} $out_time" >&2
     echo -e "${blue}clock IN to${reset} $account ${blue}again ?${reset} (Y/n)" >&2
   fi
   }
 
 
-# Show the currently clocke:bnd-in project
+# Show the currently clocked-in project
 _t_cur() {
   sed -e '/^i/!d;$!d' "${timelog}" | __t_extract_project
 }
@@ -199,11 +226,11 @@ _t_usage() {
   cat << EOF
 Usage: t<space><action> or t<CR> for status        "t" is for "timelog"
   actions:
-     i|in <account:sub> [desc] [; comment]      td|today - balance today
+     i|in <account:sub> [desc] [-- comment]     td|today - balance today
      o|out [comment]                            yd|yesterday - bal yesterday
      a|accounts - list accounts used            yd^ - balance for 2 days ago
      b|bal - balance report [args]              tw|thisweek - bal for this week
-  *  c|comm - add comment                       lw|lastweek - bal for last week
+     c|comm - add time-stamped comment          lw|lastweek - bal for last week
   *  d|dot - open timedot file (hledger)        tm|thismonth - bal for this mo
      e|edit - edit timelog file                 lm|lastmonth - bal for last mo
      f|file - show timelog file         _             
@@ -213,10 +240,10 @@ Usage: t<space><action> or t<CR> for status        "t" is for "timelog"
      p|print - print [args]             \__|    hledger.org, run hledger<CR>
      r|reg - register [args]                   
      s|stats                                    For user configs edit this file
-     t|tail - show end of timelog               For corrections edit timeclock 
+     t|tail - show end of timelog               For corrections edit timelog 
   *  u|ui - open in hledger-ui                  For more details see README.md
   *  v|version                                  
-  *  w|write - print timedot > ledger
+  *  w|web - open timelog in browser
   *  z|zip - backup files                       Please report issues/fixes to 
       ( * = planned )          https://github.com/linuxcaffe/task-timelog-hook/
 EOF
@@ -249,21 +276,26 @@ case "${action}" in
   i)   _t_in "$@";;
   out) _t_out "$@";;
   o) _t_out "$@";;
+  accounts) grep '^i ' "$timelog" |awk '{print $4}'|sort|uniq;;
+  a) grep '^i ' "$timelog" |awk '{print $4}'|sort|uniq;;
+  bal) _t_ledger bal "$@";;
+  b) _t_ledger bal "$@";;
+  comment) _t_comment "$@";;
+  c) _t_comment "$@";;
+  dot) _t_timedot ;;
+  d) _t_timedot ;;
   edit) _t_do $EDITOR_BIN "$@";;
   e) _t_do $EDITOR_BIN "$@";;
   file) _t_timelog "$@";;
   f) _t_timelog "$@";;
   grep) _t_do grep "$@";;
   g) _t_do grep "$@";;
-  accounts) grep '^i ' "$timelog" |awk '{print $4}'|sort|uniq;;
-  a) grep '^i ' "$timelog" |awk '{print $4}'|sort|uniq;;
-  bal) _t_ledger bal "$@";;
-  b) _t_ledger bal "$@";;
-  reg) _t_ledger reg "$@";;
-  r) _t_ledger reg "$@";;
   print) _t_ledger print "$@";;
   p) _t_ledger print "$@";;
-  hours) _t_ledger bal -p "since today" "$@";;
+  reg) _t_ledger reg "$@";;
+  r) _t_ledger reg "$@";;
+  stats) _t_ledger stats "$@";;
+  s) _t_ledger stats "$@";;
   td) _t_ledger bal -p "since today" "$@";;
   yesterday) _t_ledger bal -p "yesterday" "$@";;
   yd) _t_ledger bal -p "yesterday" "$@";;
@@ -272,6 +304,10 @@ case "${action}" in
   tw) _t_ledger $_args "this week" "$@";;
   lastweek) _t_ledger $_args "last week" "$@";;
   lw) _t_ledger $_args "last week" "$@";;
+  thismonth) _t_ledger $_args "this month" "$@";;
+  tm) _t_ledger $_args "this month" "$@";;
+  lastmonth) _t_ledger $_args "last month" "$@";;
+  lm) _t_ledger $_args "last month" "$@";;
   last^^^^^) _t_last 6 "$@";;
   last^^^^) _t_last 5 "$@";;
   last^^^) _t_last 4 "$@";;
@@ -280,6 +316,7 @@ case "${action}" in
   last) _t_last 1 "$@";;
   head)  _t_do head "$@";;
   tail)  _t_do tail "$@";;
+  t)  _t_do tail "$@";;
   less)  _t_do less;;
   upd) _t_do hledger -f $timedot print > ~/.task/hooks/task-timelog-hook/timedot.ledger;;
 
