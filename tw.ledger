@@ -1,3 +1,0 @@
-; tw.ledger - including time file for ledger-cli
-include ~/.task/hooks/task-timelog-hook/tw.timeclock
-include ~/.task/hooks/task-timelog-hook/timedot.ledger
