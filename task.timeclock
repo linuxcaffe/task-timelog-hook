@@ -1,0 +1,117 @@
+; tw.timeclock file 2021/11/05
+# vim modeline
+
+i 2021/11/11 17:27:37 it:tw:timelog  develop timelog-hook
+o 2021/11/11 17:38:21  ; github:, uuid: fb77148d-c48b-454c-a978-bb846db6f7ec
+
+i 2021/11/11 17:31:51 it:tw:timelog  develop timelog-hook
+o 2021/11/11 17:37:52  ; github:, uuid: fb77148d-c48b-454c-a978-bb846db6f7ec
+
+i 2021/11/11 17:38:40 it:tw:timelog  develop timelog-hook
+o 2021/11/11 17:39:09  ; github:, uuid: fb77148d-c48b-454c-a978-bb846db6f7ec
+
+i 2021/11/11 18:08:08 it:tw:timelog  develop timelog-hook
+o 2021/11/11 18:09:02  ; github:, uuid: fb77148d-c48b-454c-a978-bb846db6f7ec
+
+i 2021/11/11 18:11:16 it:tw:timelog  (2) develop timelog-hook
+o 2021/11/11 18:11:29  ; github:, uuid: fb77148d-c48b-454c-a978-bb846db6f7ec
+
+i 2021-11-19 04:02:41 personal:eclipse
+o 2021-11-19 04:13:08
+i 2021-11-21 15:00:05 it:tw:timelog  scripting t
+o 2021-11-21 15:00:33
+i 2021-11-21 15:02:11 it:tw:timelog  more scripting t
+o 2021-11-21 19:02:21
+
+i 2021-11-23 00:53:39 timelog  testing
+o 2021-11-23 00:58:13
+
+i 2021-11-23 01:21:44 timelog  testing
+o 2021-11-23 01:21:48  ; with a comment and a newline
+
+i 2021-11-23 08:04:26 home:breakfast
+o 2021-11-23 08:17:48
+
+i 2021-11-23 11:04:27 home:breakfast
+o 2021-11-23 11:04:37
+
+i 2021-11-23 11:09:38 home:breakfast
+o 2021-11-23 11:09:50  ; a comment
+
+
+i 2021-11-23 17:43:00 timelog:geez  w t f
+o 2021-11-23 17:43:19  ; be cuz
+
+i 2021-11-24 01:18:02 timelog:geez
+o 2021-11-24 01:24:23  ; comment
+
+i 2021-11-24 01:42:18 timelog:m  would you believe
+o 2021-11-24 01:43:19
+
+i 2021-11-24 02:12:46 timelog:m
+o 2021-11-24 02:12:59  ; commint
+
+i 2021-11-24 22:14:51 ent:youtube  Colbert
+o 2021-11-24 22:57:01
+
+i 2021-11-24 22:57:38 ent:youtube
+o 2021-11-24 23:10:41
+
+i 2021-11-24 23:10:41 home:shower
+o 2021-11-24 23:33:40
+
+i 2021-11-25 20:27:48 home:dinner
+o 2021-11-25 21:00:13
+
+i 2021-11-25 21:18:15 ent:youtube  Colbert
+o 2021-11-25 21:55:55
+
+i 2021-11-25 22:15:40 ent:movie  Hawkeye
+o 2021-11-25 23:10:07  ; ep: 1
+
+i 2021-11-25 23:10:49 ent:movie
+o 2021-11-25 23:49:27
+
+i 2021-11-26 18:58:39 timelog  bashing
+o 2021-11-26 19:56:12
+
+i 2021-11-28 21:41:23 it:timelog  comments
+o 2021-11-28 22:01:44
+
+i 2021-11-28 22:01:44 it:timelog  noodling
+o 2021-12-01 11:06:00
+
+i 2021-12-01 11:24:08 it:timelog  tests
+o 2021-12-01 11:24:21  ; working
+
+i 2021-12-04 12:12:31 ent:yt  maddow
+o 2021-12-04 12:30:30  ; coffe time
+
+i 2021-12-04 12:57:08 ent:yt  tyt
+o 2021-12-04 13:07:37
+
+i 2021-12-04 13:07:37 ent:yt  Prof Bari
+o 2021-12-04 13:26:49
+
+i 2021-12-04 14:24:46 ent:yt  Maddow
+o 2021-12-04 14:40:40
+
+i 2021-12-04 14:40:40 ent:yt  Prof Bari
+o 2021-12-04 15:45:27
+
+i 2021-12-04 15:45:27 ent:yt  Barnabe
+o 2021-12-04 15:54:24
+
+i 2021-12-04 15:54:24 ent:yt  BBC Attenboro
+o 2021-12-04 16:16:26
+
+i 2021-12-04 16:32:33 ent:tw  Daily Stoic
+o 2021-12-04 16:36:49
+
+i 2021-12-04 17:14:17 it:admin  .bashrc
+o 2021-12-04 17:42:51
+
+i 2021-12-04 17:42:51 it:tw:taskopen
+o 2021-12-04 18:05:42  ; failed at taskopen 2.0 install
+
+i 2021-12-04 22:58:33 it:acct  hledger
