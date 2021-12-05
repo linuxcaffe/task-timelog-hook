@@ -21,46 +21,20 @@
 * editor
 
 ## RECOMMENDED
-- timedot (for hledger users)
-- timedot-vim
-- t and t. scripts
 
+- [t](https://github.com/linuxcaffe/t/)
+  "t" is a handy bash script that works great with timelog files. It simplifies starting/ stopping/ switching/ reporting timelog functions with just a few keystrokes.
+  
+- [timedot](https://github.com/linuxcaffe/timedot-vim) (for hledger users)
+  timedot is another timelogging file format for those things you want to record approximately how much time per-day you spent doing various things. It's concise and human-readable, and ideal for those activities that dont require CLOCK-IN/ CLOCK-OUT precision. If you use hledger, timedot and timeclock records can easily be combined by including them both from a journal file.
+  
 ## USAGE
-### Timelog files
-Timelog entries can be created taskwarrior start/stop commands, or directly by editing the *.timeclock file, or by using "t".
-### t 
-"t" is a handy script to work with (h)ledger and timelog files
-```
-Usage: t<space><action> or t<CR> for status        "t" is for "timelog"
-  actions:
-     i|in <account:sub> [desc] [-- comment]      td|today - balance today
-     o|out [comment]                            yd|yesterday - bal yesterday
-     a|accounts - list accounts used            yd^ - balance for 2 days ago
-     b|bal - balance report [args]              tw|thisweek - bal for this week
-  *  c|comm - add comment                       lw|lastweek - bal for last week
-  *  d|dot - open timedot file (hledger)        tm|thismonth - bal for this mo
-     e|edit - edit timelog file                 lm|lastmonth - bal for last mo
-     f|file - show timelog file         _             
-     g|grep - grep [args]              | |_     For report args and options see
-     h|help - (you're looking at it)   | __|    ledger-cli.org or man ledger 
-  *  l|log - record previous event     | |_      or  
-     p|print - print [args]             \__|    hledger.org, run hledger<CR>
-     r|reg - register [args]                   
-     s|stats                                    For user configs edit this file
-     t|tail - show end of timelog               For corrections edit timelog 
-  *  u|ui - open in hledger-ui                  For more details see README.md
-  *  v|version                                  
-  *  w|web - open timelog in browser
-  *  z|zip - backup files                       Please report issues/fixes to 
-      ( * = planned )          https://github.com/linuxcaffe/task-timelog-hook/
-```
-### Timedot
+With this hook installed, timelog (eg. task.timeclock file) entries are automatically created with taskwarrior start/stop commands. Because the timecklock file is simple and human-readable text, it's easily modified in your $EDITOR of choice. A great variety of report and options can be run using ledger (`man ledger`) or hledger (`hledger<CR>`). Working with timeclock (timelog) files is even easier using "[t](https://github.com/linuxcaffe/t)".
 
 ## CREDITS
 
 This hook is based entirely on https://gist.github.com/wbsch/d977b0ac29aa1dfa4437 by Wilhelm Schürmann in 2015, and it works just great! I'm expanding the gist to a github repo to provide documentation and tweaks where needed.
 
-## COMMENTS
 ## CONTRIBUTIONS
 Bug reports, suggestions, pull requests welcome https://github.com/linuxcaffe/task-timelog-hook/issues
 

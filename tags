@@ -9,7 +9,6 @@
 !_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	5.9.0	/p5.9.20210815.0/
-COMMENTS	README.md	/^## COMMENTS$/;"	s	chapter:task-timelog-hook
 CONFIGURE	README.md	/^## CONFIGURE$/;"	s	chapter:task-timelog-hook
 CONTRIBUTIONS	README.md	/^## CONTRIBUTIONS$/;"	s	chapter:task-timelog-hook
 CREDITS	README.md	/^## CREDITS$/;"	s	chapter:task-timelog-hook
@@ -19,8 +18,6 @@ LEDGERFILE	on-modify-timeclock.py	/^    LEDGERFILE = os.environ['TIMELOG']$/;"	v
 LEDGERFILE	on-modify-timeclock.py	/^LEDGERFILE = "%s\/.task\/hooks\/task-timelog-hook\/tw.timeclock" % os.getenv('HOME')$/;"	v
 RECOMMENDED	README.md	/^## RECOMMENDED$/;"	s	chapter:task-timelog-hook
 Requirements	README.md	/^### Requirements$/;"	S	section:task-timelog-hook""INSTALL
-Timedot	README.md	/^### Timedot$/;"	S	section:task-timelog-hook""USAGE
-Timelog files	README.md	/^### Timelog files$/;"	S	section:task-timelog-hook""USAGE
 USAGE	README.md	/^## USAGE$/;"	s	chapter:task-timelog-hook
 adjust_date	on-modify-timeclock.py	/^def adjust_date(d, adjust_by):$/;"	f
 annotation_added	on-modify-timeclock.py	/^annotation_added = ('annotations' in new and not 'annotations' in old) \\$/;"	v
@@ -35,6 +32,5 @@ started_ts	on-modify-timeclock.py	/^    started_ts = calendar.timegm(started_utc
 started_utc	on-modify-timeclock.py	/^    started_utc = tw_to_dt(old['start'])$/;"	v
 stopped	on-modify-timeclock.py	/^            stopped = adjust_date(stopped, m.group(0))$/;"	v
 stopped	on-modify-timeclock.py	/^    stopped = datetime.now()$/;"	v
-t	README.md	/^### t $/;"	S	section:task-timelog-hook""USAGE
 task-timelog-hook	README.md	/^# task-timelog-hook$/;"	c
 tw_to_dt	on-modify-timeclock.py	/^def tw_to_dt(s):$/;"	f
