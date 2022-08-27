@@ -101,18 +101,24 @@ if __name__ == '__main__':
                     sys.exit(1)
                 print("Timelog: Stopped task %s minutes ago." % m.group(0))
 
-        entry = "i " + started.strftime("%Y/%m/%d %H:%M:%S")
-        entry += " "
-        entry += new['project'].replace('.', ':') if 'project' in new else "no project"
-        entry += "  " + new['description'] + "\n"
-        entry += "o " + stopped.strftime("%Y/%m/%d %H:%M:%S")
-        entry += "  ; "
-        # separate tags
-        entry += ":,".join(new['tags']) + ":," if 'tags' in new else ""
-        # TODO: extract uuid.short, not (default) uuid.long
-        entry += " uuid: " + new['uuid']
-        entry += "\n\n"
+        # time in
+        tw_entry = "i " + started.strftime("%Y/%m/%d %H:%M:%S") + " "
+
+        #add project
+        tw_entry += new['project'].replace('.', ':') if 'project' in new else "no project"
+
+        # add description
+        tw_entry += "  " + new['description']
+
+        # add tags
+        tw_entry += "  " + ":,".join(new['tags']) + ":," if 'tags' in new else ""
+
+        # add uuid
+        tw_entry += " uuid: " + new['uuid'] + "\n"
+
+        # add time out
+        tw_entry += "o " + stopped.strftime("%Y/%m/%d %H:%M:%S") + "\n\n"
         with open(LEDGERFILE, "a") as ledger:
-            ledger.write(entry.encode("utf-8"))
+            ledger.write(tw_entry.encode("utf-8"))
 
     print(json.dumps(new))
