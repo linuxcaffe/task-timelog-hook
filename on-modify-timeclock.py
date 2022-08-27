@@ -57,61 +57,62 @@ def dt_to_tw(d):
     return d.strftime("%Y%m%dT%H%M%SZ")
 
 
-old = json.loads(sys.stdin.readline())
-new = json.loads(sys.stdin.readline())
+if __name__ == '__main__':
+    old = json.loads(sys.stdin.readline())
+    new = json.loads(sys.stdin.readline())
 
-annotation_added = ('annotations' in new and not 'annotations' in old) \
-                    or \
-                 ('annotations' in new and 'annotations' in old and \
-                  len(new['annotations']) > len(old['annotations']))
+    annotation_added = ('annotations' in new and not 'annotations' in old) \
+                        or \
+                     ('annotations' in new and 'annotations' in old and \
+                      len(new['annotations']) > len(old['annotations']))
 
 
-# task started
-if ('start' in new and not 'start' in old) and annotation_added:
-    new['annotations'].sort(key=lambda anno: anno['entry'])
-    m = re.match('^[0-9]+$', new['annotations'][-1]['description'])
-    if m:
-        new['start'] = dt_to_tw(adjust_date(new['start'], int(m.group(0))))
-        new['annotations'] = new['annotations'][:-1]
-        if not new['annotations']:
-            del new['annotations']
-        print("Timelog: Started task %s minutes ago." % m.group(0))
-        
-        if tw_to_dt(new['start']) < tw_to_dt(new['entry']):
-            new['entry'] = new['start']
-
-# task stopped
-if 'start' in old and not 'start' in new:
-    started_utc = tw_to_dt(old['start'])
-    started_ts = calendar.timegm(started_utc.timetuple())
-    started = datetime.fromtimestamp(started_ts)
-    stopped = datetime.now()
-
-    if annotation_added:
+    # task started
+    if ('start' in new and not 'start' in old) and annotation_added:
         new['annotations'].sort(key=lambda anno: anno['entry'])
         m = re.match('^[0-9]+$', new['annotations'][-1]['description'])
         if m:
+            new['start'] = dt_to_tw(adjust_date(new['start'], int(m.group(0))))
             new['annotations'] = new['annotations'][:-1]
             if not new['annotations']:
                 del new['annotations']
-            stopped = adjust_date(stopped, m.group(0))
-            if stopped < started:
-                print("ERROR: Stop date -%s minutes would be before the start date!" % m.group(0))
-                sys.exit(1)
-            print("Timelog: Stopped task %s minutes ago." % m.group(0))
-    
-    entry = "i " + started.strftime("%Y/%m/%d %H:%M:%S")
-    entry += " "
-    entry += new['project'].replace('.', ':') if 'project' in new else "no project"
-    entry += "  " + new['description'] + "\n"
-    entry += "o " + stopped.strftime("%Y/%m/%d %H:%M:%S")
-    entry += "  ; "
-    # separate tags 
-    entry += ":,".join(new['tags']) + ":," if 'tags' in new else ""
-# TODO: extract uuid.short, not (default) uuid.long
-    entry += " uuid: " + new['uuid']
-    entry += "\n\n"
-    with open(LEDGERFILE, "a") as ledger:
-        ledger.write(entry.encode("utf-8"))
+            print("Timelog: Started task %s minutes ago." % m.group(0))
 
-print(json.dumps(new))
+            if tw_to_dt(new['start']) < tw_to_dt(new['entry']):
+                new['entry'] = new['start']
+
+    # task stopped
+    if 'start' in old and not 'start' in new:
+        started_utc = tw_to_dt(old['start'])
+        started_ts = calendar.timegm(started_utc.timetuple())
+        started = datetime.fromtimestamp(started_ts)
+        stopped = datetime.now()
+
+        if annotation_added:
+            new['annotations'].sort(key=lambda anno: anno['entry'])
+            m = re.match('^[0-9]+$', new['annotations'][-1]['description'])
+            if m:
+                new['annotations'] = new['annotations'][:-1]
+                if not new['annotations']:
+                    del new['annotations']
+                stopped = adjust_date(stopped, m.group(0))
+                if stopped < started:
+                    print("ERROR: Stop date -%s minutes would be before the start date!" % m.group(0))
+                    sys.exit(1)
+                print("Timelog: Stopped task %s minutes ago." % m.group(0))
+
+        entry = "i " + started.strftime("%Y/%m/%d %H:%M:%S")
+        entry += " "
+        entry += new['project'].replace('.', ':') if 'project' in new else "no project"
+        entry += "  " + new['description'] + "\n"
+        entry += "o " + stopped.strftime("%Y/%m/%d %H:%M:%S")
+        entry += "  ; "
+        # separate tags
+        entry += ":,".join(new['tags']) + ":," if 'tags' in new else ""
+        # TODO: extract uuid.short, not (default) uuid.long
+        entry += " uuid: " + new['uuid']
+        entry += "\n\n"
+        with open(LEDGERFILE, "a") as ledger:
+            ledger.write(entry.encode("utf-8"))
+
+    print(json.dumps(new))
