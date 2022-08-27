@@ -106,8 +106,8 @@ if 'start' in old and not 'start' in new:
     entry += "  " + new['description'] + "\n"
     entry += "o " + stopped.strftime("%Y/%m/%d %H:%M:%S")
     entry += "  ; "
-# TODO: separate tags (is now   tag1,tag2,tag3:,   should be   tag1:, tag2:, tag3:,)
-    entry += "" .join(new['tags']) + ":," if 'tags' in new else ""
+    # separate tags 
+    entry += ":,".join(new['tags']) + ":," if 'tags' in new else ""
 # TODO: extract uuid.short, not (default) uuid.long
     entry += " uuid: " + new['uuid']
     entry += "\n\n"
