@@ -111,7 +111,7 @@ if __name__ == '__main__':
         tw_entry += "  " + new['description']
 
         # add tags
-        tw_entry += "  ;" + ":,".join(new['tags']) + ":," if 'tags' in new else ""
+        tw_entry += "  ; " + ":,".join(new['tags']) + ":," if 'tags' in new else ""
 
         # add uuid
         tw_entry += " uuid: " + new['uuid'] + "\n"
